@@ -62,7 +62,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please select a file to upload.");
         }
         try {
-            String uploadDir = "/Users/BlessDad/Documents/React-native/mySpringServer/src/main/resources/static/uploads";
+            String uploadDir = "src/main/resources/static/uploads";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs(); // 업로드 디렉토리가 없는 경우 생성
