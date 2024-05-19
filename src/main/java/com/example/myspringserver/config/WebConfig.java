@@ -9,6 +9,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/home/ubuntu/Petstagram_server/src/main/resources/static/images/");
+                .addResourceLocations("file:/home/ubuntu/images/");
     }
 }
