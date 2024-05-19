@@ -62,7 +62,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please select a file to upload.");
         }
         try {
-            String uploadDir = "/home/ubuntu/PetStagram_server/src/main/resources/static/uploads";
+            String uploadDir = "/home/ubuntu/Petstagram_server/src/main/resources/static/images";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs(); // 업로드 디렉토리가 없는 경우 생성
