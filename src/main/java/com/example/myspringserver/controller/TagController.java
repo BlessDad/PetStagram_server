@@ -57,9 +57,9 @@ public class TagController {
         return ResponseEntity.ok("태그 수정 성공");
     }
 
-    @GetMapping("/getTag")
-    public ResponseEntity<List<TagDto>> getTags(){
-        List<Tag> tags = tagRepository.findAll();
+    @GetMapping("/getTag/{post_id}")
+    public ResponseEntity<List<TagDto>> getTags(@PathVariable Long post_id){
+        List<Tag> tags = tagRepository.findByPostId(post_id);
         List<TagDto> tagDtos = tags.stream().map(tagService::convertToDto).collect(Collectors.toList());
 
         return new ResponseEntity<>(tagDtos, HttpStatus.OK);
