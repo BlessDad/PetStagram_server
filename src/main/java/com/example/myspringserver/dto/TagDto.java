@@ -8,4 +8,6 @@ import lombok.Setter;
 public class TagDto {
     private Integer tag_id;
     private String tag_name;
+
+    private Long post_id;
 }

@@ -1,5 +1,6 @@
 package com.example.myspringserver.dto;
 
+import com.example.myspringserver.entity.Tag;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,14 @@ public class PostDto {
 
     private List<CommentDto> comments;  // 댓글 목록 추가
 
+    private List<TagDto> tags;
+
     public List<CommentDto> getComments() {
         return comments != null ? comments : Collections.emptyList();
+    }
+
+    public List<TagDto> getTags() {
+        return tags != null ? tags : Collections.emptyList();
     }
 }
 

@@ -17,4 +17,7 @@ public class Tag {
     @Column (name = "tag_name")
     private String tag_name;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 }

@@ -1,7 +1,9 @@
 package com.example.myspringserver.controller;
 
 import com.example.myspringserver.dto.TagDto;
+import com.example.myspringserver.entity.Post;
 import com.example.myspringserver.entity.Tag;
+import com.example.myspringserver.repository.PostRepository;
 import com.example.myspringserver.repository.TagRepository;
 import com.example.myspringserver.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,24 @@ public class TagController {
     @Autowired
     private TagRepository tagRepository;
 
-    @PostMapping("/insert")
-    public ResponseEntity<String> insertTag(@RequestBody TagDto tagDto) {
-        tagRepository.save(tagService.convertToEntity(tagDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body("태그 추가 성공");
+    @Autowired
+    private PostRepository postRepository;
+
+    @PostMapping("/insert/{post_id}")
+    public ResponseEntity<String> insertTag(@PathVariable Long post_id, @RequestBody TagDto tagDto) {
+        try {
+            // Check if the post exists
+            Post post = postRepository.findById(post_id)
+                    .orElseThrow(() -> new NoSuchElementException("게시물을 찾을 수 없습니다."));
+
+            tagDto.setPost_id(post.getId());
+            Tag tag = tagService.convertToEntity(tagDto);
+
+            tagRepository.save(tag);
+            return ResponseEntity.status(HttpStatus.CREATED).body("태그가 게시물에 추가되었습니다.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 게시물을 찾을 수 없습니다.");
+        }
     }
 
     @PutMapping("/updateTag/{id}")
