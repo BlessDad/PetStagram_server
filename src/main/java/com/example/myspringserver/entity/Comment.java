@@ -19,4 +19,8 @@ public class Comment {
 
     @Column (name = "comment_content")
     private String comment_content;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 }
