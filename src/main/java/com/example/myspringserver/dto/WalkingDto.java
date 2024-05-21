@@ -15,4 +15,6 @@ public class WalkingDto {
     private Double walking_distance;
     private Integer walking_calorie;
     private Double walking_speed;
+
+    private Integer user_id;
 }

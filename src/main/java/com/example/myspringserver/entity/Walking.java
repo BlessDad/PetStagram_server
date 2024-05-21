@@ -31,4 +31,8 @@ public class Walking {
 
     @Column (name = "walking_speed")
     private Double walking_speed;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

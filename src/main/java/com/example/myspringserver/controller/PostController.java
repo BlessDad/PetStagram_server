@@ -37,7 +37,6 @@ public class PostController {
     public ResponseEntity<List<PostDto>> getPosts() {
         List<Post> posts = postRepository.findAll();
         List<PostDto> postDtos = posts.stream().map(postService::convertToDto).collect(Collectors.toList());
-
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
     }
 

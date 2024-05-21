@@ -1,6 +1,7 @@
 package com.example.myspringserver.dto;
 
 import com.example.myspringserver.entity.Post;
+import com.example.myspringserver.entity.Walking;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,13 @@ public class UserDto {
 
     private List<PostDto> posts;
 
+    private List<WalkingDto> walkings;
+
     public List<PostDto> getPosts() {
         return posts != null ? posts: Collections.emptyList();
+    }
+
+    public List<WalkingDto> getWalkings() {
+        return walkings != null ? walkings:Collections.emptyList();
     }
 }

@@ -1,11 +1,19 @@
 package com.example.myspringserver.service;
 
 import com.example.myspringserver.dto.WalkingDto;
+import com.example.myspringserver.entity.User;
 import com.example.myspringserver.entity.Walking;
+import com.example.myspringserver.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 public class WalkingService {
+    @Autowired
+    private UserRepository userRepository;
+
     public WalkingDto convertToDto(Walking walking) {
         WalkingDto dto = new WalkingDto();
 
@@ -15,7 +23,7 @@ public class WalkingService {
         dto.setWalking_distance(walking.getWalking_distance());
         dto.setWalking_calorie(walking.getWalking_calorie());
         dto.setWalking_speed(walking.getWalking_speed());
-
+        dto.setUser_id(walking.getUser().getUser_id());
         return dto;
     }
 
@@ -29,6 +37,10 @@ public class WalkingService {
         walking.setWalking_calorie(dto.getWalking_calorie());
         walking.setWalking_speed(dto.getWalking_speed());
 
+        User user = userRepository.findById(dto.getUser_id())
+                .orElseThrow(() -> new IllegalArgumentException("invalid user id : " + dto.getUser_id()));
+
+        walking.setUser(user);
         return walking;
     }
 
