@@ -2,7 +2,10 @@ package com.example.myspringserver.controller;
 
 import com.example.myspringserver.dto.PostDto;
 import com.example.myspringserver.entity.Post;
+import com.example.myspringserver.entity.User;
+import com.example.myspringserver.repository.UserRepository;
 import com.example.myspringserver.service.PostService;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -27,12 +30,24 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/getPost")
     public ResponseEntity<List<PostDto>> getPosts() {
         List<Post> posts = postRepository.findAll();
         List<PostDto> postDtos = posts.stream().map(postService::convertToDto).collect(Collectors.toList());
 
         return new ResponseEntity<>(postDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/getPost/{id}")
+    public ResponseEntity<List<PostDto>> getPostsById(@PathVariable Integer id){
+        List<Post> posts = postRepository.findPostById(id);
+        List<PostDto> postDtos = posts.stream().map(postService::convertToDto).collect(Collectors.toList());
+
+        return new ResponseEntity<>(postDtos, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/deletePost/{id}")
@@ -45,10 +60,20 @@ public class PostController {
         }
     }
 
-    @PostMapping("/insert")
-    public ResponseEntity<String> insertPost(@RequestBody PostDto postDto) {
-        postRepository.save(postService.convertToEntity(postDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body("게시물이 성공적으로 추가되었습니다.");
+    @PostMapping("/insert/{user_id}")
+    public ResponseEntity<String> insertPost(@PathVariable Integer user_id, @RequestBody PostDto postDto) {
+        try {
+            User user = userRepository.findById(user_id)
+                    .orElseThrow(() -> new NoSuchElementException("User를 찾을 수 없습니다."));
+
+            postDto.setUser_id(user.getUser_id());
+            Post post = postService.convertToEntity(postDto);
+            postRepository.save(post);
+            return ResponseEntity.status(HttpStatus.CREATED).body("게시글이 추가되었습니다.");
+        }
+        catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User를 찾을 수 없습니다.");
+        }
     }
 
     @PostMapping("/upload") // 이미지 업로드 처리
@@ -76,12 +101,18 @@ public class PostController {
     }
 
     @PutMapping("/updatePost/{id}")
-    public ResponseEntity<String> updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
+    public ResponseEntity<String> updatePost(@PathVariable Long id, @RequestBody PostDto updatedPostDto) {
         Post existingPost = postRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("게시물을 찾을 수 없습니다."));
 
-        existingPost.setTitle(updatedPost.getTitle());
-        existingPost.setContent(updatedPost.getContent());
+        existingPost.setTitle(updatedPostDto.getTitle());
+        existingPost.setContent(updatedPostDto.getContent());
+        existingPost.setImageUrl(updatedPostDto.getImageUrl());
+
+//        Post updatedPost = postService.convertToEntity(updatedPostDto);
+//        updatedPost.setId(existingPost.getId());
+//
+//        postRepository.save(updatedPost);
 
         postRepository.save(existingPost);
         return ResponseEntity.ok("게시물이 성공적으로 수정되었습니다.");

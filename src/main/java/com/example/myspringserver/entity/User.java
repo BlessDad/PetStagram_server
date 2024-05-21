@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.IdGeneratorType;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Table(name = "user")
@@ -35,4 +37,8 @@ public class User {
 
     @Column (name = "user_post_count")
     private Integer user_post_count;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts;
+
 }
