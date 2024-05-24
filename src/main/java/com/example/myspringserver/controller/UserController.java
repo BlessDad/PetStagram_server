@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,6 +56,14 @@ public class UserController {
     @GetMapping("/getUser")
     public ResponseEntity<List<UserDto>> getUsers() {
         List<User> users = userRepository.findAll();
+        List<UserDto> userDtos = users.stream().map(userService::convertToDto).collect(Collectors.toList());
+
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/getUser/{user_id}")
+    public ResponseEntity<List<UserDto>> getUserById(@PathVariable Integer user_id) {
+        Optional<User> users = userRepository.findById(user_id);
         List<UserDto> userDtos = users.stream().map(userService::convertToDto).collect(Collectors.toList());
 
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
