@@ -32,6 +32,9 @@ public class Walking {
     @Column (name = "walking_speed")
     private Double walking_speed;
 
+//    @Column (name = "imageUrl")
+//    private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

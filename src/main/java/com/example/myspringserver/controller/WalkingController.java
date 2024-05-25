@@ -6,11 +6,16 @@ import com.example.myspringserver.entity.Walking;
 import com.example.myspringserver.repository.UserRepository;
 import com.example.myspringserver.repository.WalkingRepository;
 import com.example.myspringserver.service.WalkingService;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -75,6 +80,18 @@ public class WalkingController {
 
         return new ResponseEntity<>(walkingDtos, HttpStatus.OK);
     }
+
+    @GetMapping("/getWalking/between")
+    public ResponseEntity<List<WalkingDto>> getWalkingBetween(@RequestParam("startDateTime") LocalDateTime startDateTime,
+                                           @RequestParam("endDateTime") LocalDateTime endDateTime) {
+        List<Walking> walkings = walkingRepository.findByWalking_startBetween(startDateTime, endDateTime);
+        List<WalkingDto> walkingDtos = walkings.stream().map(walkingService::convertToDto).collect(Collectors.toList());
+
+        return new ResponseEntity<>(walkingDtos, HttpStatus.OK);
+    }
+
+
+
 
     @DeleteMapping("/deleteWalking/{id}")
     public ResponseEntity<?> deleteWalking (@PathVariable Integer id) {

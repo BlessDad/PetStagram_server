@@ -24,6 +24,7 @@ public class WalkingService {
         dto.setWalking_calorie(walking.getWalking_calorie());
         dto.setWalking_speed(walking.getWalking_speed());
         dto.setUser_id(walking.getUser().getUser_id());
+        //dto.setImageUrl(walking.getImageUrl());
         return dto;
     }
 
@@ -36,6 +37,7 @@ public class WalkingService {
         walking.setWalking_distance(dto.getWalking_distance());
         walking.setWalking_calorie(dto.getWalking_calorie());
         walking.setWalking_speed(dto.getWalking_speed());
+        //walking.setImageUrl(dto.getImageUrl());
 
         User user = userRepository.findById(dto.getUser_id())
                 .orElseThrow(() -> new IllegalArgumentException("invalid user id : " + dto.getUser_id()));
