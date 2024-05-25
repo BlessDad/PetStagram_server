@@ -49,6 +49,11 @@ public class PostController {
 
     }
 
+    @GetMapping("/getUserNickname/{user_id}")
+    public String getUserNicknameByUserId(@PathVariable Integer user_id) {
+        return postRepository.findUserNicknameByUserId(user_id);
+    }
+
     @DeleteMapping("/deletePost/{id}")
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         try {
@@ -82,6 +87,7 @@ public class PostController {
         }
         try {
             String uploadDir = "/home/ubuntu/images";
+            //String uploadDir = "C:\\images";
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs(); // 업로드 디렉토리가 없는 경우 생성

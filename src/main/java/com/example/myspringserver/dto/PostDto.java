@@ -29,5 +29,3 @@ public class PostDto {
         return tags != null ? tags : Collections.emptyList();
     }
 }
-
-//test

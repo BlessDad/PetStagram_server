@@ -7,6 +7,7 @@ import com.example.myspringserver.entity.Post;
 import com.example.myspringserver.entity.Comment;
 import com.example.myspringserver.entity.Tag;
 import com.example.myspringserver.entity.User;
+import com.example.myspringserver.repository.PostRepository;
 import com.example.myspringserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 public class PostService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     public PostDto convertToDto(Post post) {
         PostDto dto = new PostDto();
