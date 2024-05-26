@@ -20,9 +20,10 @@ public class UserDto {
     private Integer user_following_count;
     private Integer user_post_count;
 
+    //연관관계
     private List<PostDto> posts;
-
     private List<WalkingDto> walkings;
+    private List<BookmarkDto> bookmarks;
 
     public List<PostDto> getPosts() {
         return posts != null ? posts: Collections.emptyList();
@@ -30,5 +31,9 @@ public class UserDto {
 
     public List<WalkingDto> getWalkings() {
         return walkings != null ? walkings:Collections.emptyList();
+    }
+
+    public List<BookmarkDto> getBookmarks() {
+        return bookmarks != null ? bookmarks:Collections.emptyList();
     }
 }
