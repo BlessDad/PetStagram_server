@@ -64,7 +64,7 @@ public class WalkingController {
             String filePath = uploadDir + File.separator + fileName;
             File dest = new File(filePath);
             file.transferTo(dest);
-            String fileUrl = "/uploads/" + fileName;
+            String fileUrl = "/walkingUploads/" + fileName;
             return ResponseEntity.status(HttpStatus.CREATED).body(fileUrl);
 
         } catch (IOException e) {

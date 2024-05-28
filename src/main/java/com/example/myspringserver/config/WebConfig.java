@@ -10,5 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:/home/ubuntu/images/");
+
+        registry.addResourceHandler("/walkingUploads/**")
+                .addResourceLocations("file:/home/ubuntu/walkingImages/");
     }
 }
