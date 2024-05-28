@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table (name = "Bookmark")
+@Table (name = "bookmark")
 
 public class Bookmark {
     @Id

@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BookmarkRepository extends JpaRepository<Bookmark, Integer> {
-    @Query(value = "SELECT * FROM Bookmark b WHERE b.user_id = :user_id", nativeQuery = true)
+    @Query(value = "SELECT * FROM bookmark b WHERE b.user_id = :user_id", nativeQuery = true)
     List<Bookmark> findByUser_user_id(Integer user_id);
 }
