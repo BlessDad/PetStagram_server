@@ -72,8 +72,8 @@ public class PostController {
 
             postDto.setUser_id(user.getUser_id());
             Post post = postService.convertToEntity(postDto);
-            postRepository.save(post);
-            return ResponseEntity.status(HttpStatus.CREATED).body("게시글이 추가되었습니다.");
+            Post savedPost = postRepository.save(post);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedPost.getId().toString());
         }
         catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User를 찾을 수 없습니다.");
