@@ -19,6 +19,7 @@ public class UserDto {
     private Integer user_follower_count;
     private Integer user_following_count;
     private Integer user_post_count;
+    private String imageUrl;
 
     //연관관계
     private List<PostDto> posts;

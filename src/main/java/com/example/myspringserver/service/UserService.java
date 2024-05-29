@@ -18,6 +18,7 @@ public class UserService {
         dto.setUser_follower_count(user.getUser_follower_count());
         dto.setUser_following_count(user.getUser_following_count());
         dto.setUser_post_count(user.getUser_post_count());
+        dto.setImageUrl(user.getImageUrl());
         dto.setPosts(user.getPosts().stream().map(this::convertPostToDto).collect(Collectors.toList()));
         
         dto.setWalkings(user.getWalkings().stream().map(this::convertWalkingToDto).collect(Collectors.toList()));
@@ -46,6 +47,7 @@ public class UserService {
         user.setUser_follower_count(dto.getUser_follower_count());
         user.setUser_following_count(dto.getUser_following_count());
         user.setUser_post_count(dto.getUser_post_count());
+        user.setImageUrl(dto.getImageUrl());
         
         user.setWalkings(dto.getWalkings().stream().
                 map(walkingDto -> convertWalkingToEntity(walkingDto, user)).collect(Collectors.toList()));

@@ -38,6 +38,9 @@ public class User {
     @Column (name = "user_post_count")
     private Integer user_post_count;
 
+    @Column (name = "imageUrl")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 

@@ -10,7 +10,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -30,6 +33,30 @@ public class UserController {
     public ResponseEntity<String> insertUser(@RequestBody UserDto userDto) {
         userRepository.save(userService.convertToEntity(userDto));
         return ResponseEntity.status(HttpStatus.CREATED).body("회원 추가 성공");
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please select a file to upload.");
+        }
+        try {
+            String uploadDir = "/home/ubuntu/userImages";
+            File directory = new File(uploadDir);
+            if (!directory.exists()) {
+                directory.mkdirs(); // 업로드 디렉토리가 없는 경우 생성
+            }
+            String fileName = file.getOriginalFilename();
+            String filePath = uploadDir + File.separator + fileName;
+            File dest = new File(filePath);
+            file.transferTo(dest);
+            String fileUrl = "/userUploads/" + fileName;
+            return ResponseEntity.status(HttpStatus.CREATED).body(fileUrl);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image.");
+        }
     }
 
     @PutMapping("/update/{id}")
